@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Remember Irie en Mantenimiento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2.5rem;
+      color: #ffd700;
+    }
+
+    #hangman {
+      font-size: 20px;
+      margin: 20px 0;
+      min-height: 100px;
+    }
+
+    #word {
+      font-size: 2rem;
+      letter-spacing: 8px;
+      margin: 20px 0;
+    }
+
+    #hint {
+      font-style: italic;
+      margin: 10px 0 20px;
+      color: #90ee90;
+    }
+
+    #letters button {
+      margin: 5px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #letters button:disabled {
+      background-color: #222;
+      cursor: not-allowed;
+    }
+
+    #message {
+      font-size: 1.5rem;
+      margin: 20px;
+      font-weight: bold;
+    }
+
+    #logo {
+      display: none;
+      margin: 20px auto;
+      width: 200px;
+      animation: pop 1s ease forwards, glow 1.5s infinite alternate;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px #ffd700); }
+      to { filter: drop-shadow(0 0 20px #00ffcc); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🚧 Remember Irie en Mantenimiento 🚧</h1>
+  <div id="hangman"></div>
+  <div id="hint"></div>
+  <div id="word"></div>
+  <div id="letters"></div>
+  <div id="message"></div>
+  <img id="logo" src="remember.png" alt="Logo ERB">
+
+  <script>
+    const words = [
+      { word: "javascript", hint: "Lenguaje de programación usado en la web" },
+      { word: "colombia", hint: "Tu país" },
+      { word: "ahorcado", hint: "Juego clásico de adivinar letras" },
+      { word: "energia", hint: "Fuerza que mueve al mundo" },
+      { word: "computadora", hint: "Herramienta esencial para programar" },
+      { word: "internet", hint: "La red que conecta a todos" },
+      { word: "sol", hint: "Fuente principal de energía de la Tierra" },
+      { word: "montaña", hint: "Lugar ideal para hacer senderismo" }
+    ];
+
+    let chosen = words[Math.floor(Math.random() * words.length)];
+    let word = chosen.word.toUpperCase();
+    let hint = chosen.hint;
+    let guessed = Array(word.length).fill("_");
+    let attempts = 6;
+
+    const hangmanDiv = document.getElementById("hangman");
+    const wordDiv = document.getElementById("word");
+    const lettersDiv = document.getElementById("letters");
+    const messageDiv = document.getElementById("message");
+    const hintDiv = document.getElementById("hint");
+    const logo = document.getElementById("logo");
+
+    function updateDisplay() {
+      wordDiv.textContent = guessed.join(" ");
+      hintDiv.textContent = "💡 Pista: " + hint;
+      hangmanDiv.textContent = "Intentos restantes: " + attempts;
+    }
+
+    function createLetters() {
+      for (let i = 65; i <= 90; i++) {
+        const button = document.createElement("button");
+        button.textContent = String.fromCharCode(i);
+        button.addEventListener("click", () => guessLetter(button));
+        lettersDiv.appendChild(button);
+      }
+    }
+
+    function guessLetter(button) {
+      const letter = button.textContent;
+      button.disabled = true;
+
+      if (word.includes(letter)) {
+        word.split("").forEach((l, idx) => {
+          if (l === letter) guessed[idx] = letter;
+        });
+      } else {
+        attempts--;
+      }
+
+      updateDisplay();
+      checkGameOver();
+    }
+
+    function checkGameOver() {
+      if (!guessed.includes("_")) {
+        messageDiv.textContent = "🎉 ¡Ganaste!";
+        lettersDiv.innerHTML = "";
+        logo.style.display = "block";
+      } else if (attempts <= 0) {
+        messageDiv.textContent = "💀 Perdiste. La palabra era: " + word;
+        lettersDiv.innerHTML = "";
+      }
+    }
+
+    updateDisplay();
+    createLetters();
+  </script>
+</body>
+</html>
