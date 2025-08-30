@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Remember Irie en Mantenimiento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remember Irie en Mantenimiento - Ahorcado</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,18 +12,29 @@
       text-align: center;
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     h1 {
       margin: 20px 10px;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       color: #ffd700;
     }
 
     #hangman {
       font-size: 1.2rem;
       margin: 15px 0;
-      min-height: 60px;
+      min-height: 40px;
     }
 
     #word {
@@ -40,25 +52,25 @@
     }
 
     #letters {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 600px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+      gap: 8px;
       margin: 0 auto;
     }
 
     #letters button {
-      margin: 5px;
-      padding: 10px 14px;
-      font-size: 1rem;
+      padding: 12px;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background-color: #444;
       color: white;
       cursor: pointer;
-      transition: all 0.3s ease;
-      flex: 1 0 14%; /* hace que se adapten en filas */
-      max-width: 50px;
+      transition: all 0.2s ease;
+    }
+
+    #letters button:hover {
+      background-color: #666;
     }
 
     #letters button:disabled {
@@ -67,7 +79,7 @@
     }
 
     #message {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       margin: 20px;
       font-weight: bold;
     }
@@ -90,20 +102,18 @@
       to { filter: drop-shadow(0 0 20px #00ffcc); }
     }
 
-    /* 📱 Estilos para celulares */
+    /* 📱 Ajustes para celulares */
     @media (max-width: 600px) {
       h1 {
         font-size: 1.8rem;
       }
       #word {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         letter-spacing: 5px;
       }
       #letters button {
-        flex: 1 0 18%;
-        max-width: 40px;
-        font-size: 0.9rem;
-        padding: 8px;
+        font-size: 1rem;
+        padding: 10px;
       }
       #hangman {
         font-size: 1rem;
@@ -115,13 +125,15 @@
   </style>
 </head>
 <body>
-  <h1>🚧 Remember Irie en Mantenimiento 🚧</h1>
-  <div id="hangman"></div>
-  <div id="hint"></div>
-  <div id="word"></div>
-  <div id="letters"></div>
-  <div id="message"></div>
-  <img id="logo" src="remember.png">
+  <div class="container">
+    <h1>🚧 Remember Irie en Mantenimiento 🚧</h1>
+    <div id="hangman"></div>
+    <div id="hint"></div>
+    <div id="word"></div>
+    <div id="letters"></div>
+    <div id="message"></div>
+    <img id="logo" src="remember.png">
+  </div>
 
   <script>
     const words = [
